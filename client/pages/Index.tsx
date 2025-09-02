@@ -18,7 +18,7 @@ const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 
 const sampleListings: Listing[] = [
   {
-    id: crypto.randomUUID(),
+    id: uid(),
     title: "Himalayan Haven PG",
     address: "Near ISBT, Majra",
     locality: "Dehradun",
@@ -27,7 +27,7 @@ const sampleListings: Listing[] = [
     amenities: ["wifi", "meals", "laundry", "parking", "attached-bath"],
   },
   {
-    id: crypto.randomUUID(),
+    id: uid(),
     title: "Ganga View Residency",
     address: "Tapovan",
     locality: "Rishikesh",
@@ -36,7 +36,7 @@ const sampleListings: Listing[] = [
     amenities: ["wifi", "meals", "attached-bath"],
   },
   {
-    id: crypto.randomUUID(),
+    id: uid(),
     title: "Valley Breeze PG",
     address: "Kusumkhera",
     locality: "Haldwani",
@@ -45,7 +45,7 @@ const sampleListings: Listing[] = [
     amenities: ["wifi", "laundry", "parking", "non-ac"],
   },
   {
-    id: crypto.randomUUID(),
+    id: uid(),
     title: "Lake View Stay",
     address: "Tallital",
     locality: "Nainital",
@@ -54,7 +54,7 @@ const sampleListings: Listing[] = [
     amenities: ["wifi", "laundry", "parking", "ac", "attached-bath"],
   },
   {
-    id: crypto.randomUUID(),
+    id: uid(),
     title: "Har Ki Pauri PG",
     address: "Bhilwara Road",
     locality: "Haridwar",
@@ -63,7 +63,7 @@ const sampleListings: Listing[] = [
     amenities: ["wifi", "meals", "attached-bath"],
   },
   {
-    id: crypto.randomUUID(),
+    id: uid(),
     title: "Almora Ridge Rooms",
     address: "Lower Mall Road",
     locality: "Almora",
@@ -139,7 +139,7 @@ export default function Index() {
       return;
     }
     const payment: Payment = {
-      id: crypto.randomUUID(),
+      id: uid(),
       listingId: openPayFor.id,
       tenantName: payForm.tenantName,
       phone: payForm.phone,
