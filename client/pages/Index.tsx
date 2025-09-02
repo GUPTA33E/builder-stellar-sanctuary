@@ -186,12 +186,12 @@ export default function Index() {
                 <Search className="h-4 w-4 text-muted-foreground"/>
                 <Input placeholder="Search by title, address..." value={query} onChange={(e) => setQuery(e.target.value)} />
               </div>
-              <Select value={loc} onValueChange={(v) => setLoc(v)}>
+              <Select value={loc} onValueChange={(v) => setLoc(v === "__all__" ? "" : v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="All localities" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All localities</SelectItem>
+                  <SelectItem value="__all__">All localities</SelectItem>
                   {localities.map((l) => (
                     <SelectItem key={l} value={l}>{l}</SelectItem>
                   ))}
