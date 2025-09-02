@@ -105,7 +105,7 @@ export default function Index() {
   );
 
   const [query, setQuery] = useState("");
-  const [loc, setLoc] = useState<string | undefined>(undefined);
+  const [loc, setLoc] = useState<string>("");
   const [price, setPrice] = useState<[number, number]>([0, 15000]);
   const [amenities, setAmenities] = useState<Amenity[]>([]);
 
