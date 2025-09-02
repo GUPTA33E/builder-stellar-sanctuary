@@ -21,17 +21,25 @@ export default function Layout() {
               <Mountain className="h-5 w-5" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-extrabold tracking-tight text-lg">PG Uttarakhand</span>
-              <span className="text-xs text-muted-foreground -mt-1">Find • Manage • Pay</span>
+              <span className="font-extrabold tracking-tight text-lg">
+                PG Uttarakhand
+              </span>
+              <span className="text-xs text-muted-foreground -mt-1">
+                Find • Manage • Pay
+              </span>
             </div>
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
             <NavLink to="/" className={navLinkClass}>
-              <div className="flex items-center gap-2"><Home className="h-4 w-4"/> Home</div>
+              <div className="flex items-center gap-2">
+                <Home className="h-4 w-4" /> Home
+              </div>
             </NavLink>
             <NavLink to="/dashboard" className={navLinkClass}>
-              <div className="flex items-center gap-2"><LayoutDashboard className="h-4 w-4"/> Owner Dashboard</div>
+              <div className="flex items-center gap-2">
+                <LayoutDashboard className="h-4 w-4" /> Owner Dashboard
+              </div>
             </NavLink>
           </nav>
 
@@ -54,16 +62,26 @@ export default function Layout() {
         <div className="container py-8 grid md:grid-cols-3 gap-6 text-sm">
           <div>
             <div className="flex items-center gap-2 font-semibold mb-2">
-              <Mountain className="h-4 w-4"/>
+              <Mountain className="h-4 w-4" />
               PG Uttarakhand
             </div>
-            <p className="text-muted-foreground">Housing made simple for seekers and owners across the Himalayas.</p>
+            <p className="text-muted-foreground">
+              Housing made simple for seekers and owners across the Himalayas.
+            </p>
           </div>
           <div>
             <div className="font-semibold mb-2">Explore</div>
             <ul className="space-y-1 text-muted-foreground">
-              <li><Link to="/" className="hover:text-foreground">Home</Link></li>
-              <li><Link to="/dashboard" className="hover:text-foreground">Owner Dashboard</Link></li>
+              <li>
+                <Link to="/" className="hover:text-foreground">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard" className="hover:text-foreground">
+                  Owner Dashboard
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

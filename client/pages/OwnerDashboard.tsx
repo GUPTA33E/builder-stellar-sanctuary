@@ -2,13 +2,33 @@ import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { toast } from "@/hooks/use-toast";
 import { Trash2, Edit3, Plus, IndianRupee, Receipt } from "lucide-react";
 
-export type Amenity = "wifi" | "meals" | "laundry" | "parking" | "ac" | "non-ac" | "attached-bath";
+export type Amenity =
+  | "wifi"
+  | "meals"
+  | "laundry"
+  | "parking"
+  | "ac"
+  | "non-ac"
+  | "attached-bath";
 export interface Listing {
   id: string;
   title: string;
@@ -47,8 +67,14 @@ function useLocalStorageState<T>(key: string, initial: T) {
 const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 
 export default function OwnerDashboard() {
-  const [listings, setListings] = useLocalStorageState<Listing[]>(LOCAL_STORAGE_KEYS.LISTINGS, []);
-  const [payments, setPayments] = useLocalStorageState<Payment[]>(LOCAL_STORAGE_KEYS.PAYMENTS, []);
+  const [listings, setListings] = useLocalStorageState<Listing[]>(
+    LOCAL_STORAGE_KEYS.LISTINGS,
+    [],
+  );
+  const [payments, setPayments] = useLocalStorageState<Payment[]>(
+    LOCAL_STORAGE_KEYS.PAYMENTS,
+    [],
+  );
 
   const [openAdd, setOpenAdd] = useState(false);
   const [openPayFor, setOpenPayFor] = useState<string | null>(null);
@@ -73,17 +99,29 @@ export default function OwnerDashboard() {
 
   const handleSave = () => {
     if (!form.title || !form.address || !form.locality || !form.contact) {
-      toast({ title: "Missing details", description: "Please fill all required fields." });
+      toast({
+        title: "Missing details",
+        description: "Please fill all required fields.",
+      });
       return;
     }
     if (editing) {
-      setListings((prev) => prev.map((l) => (l.id === editing.id ? { ...editing, ...form } : l)));
+      setListings((prev) =>
+        prev.map((l) => (l.id === editing.id ? { ...editing, ...form } : l)),
+      );
       setEditing(null);
     } else {
       const id = uid();
       setListings((prev) => [...prev, { id, ...form }]);
     }
-    setForm({ title: "", address: "", locality: "", rent: 5000, contact: "", amenities: [] });
+    setForm({
+      title: "",
+      address: "",
+      locality: "",
+      rent: 5000,
+      contact: "",
+      amenities: [],
+    });
     setOpenAdd(false);
     toast({ title: "Saved", description: "Listing has been saved." });
   };
@@ -93,7 +131,12 @@ export default function OwnerDashboard() {
     toast({ title: "Removed", description: "Listing deleted." });
   };
 
-  const [payForm, setPayForm] = useState<{ tenantName: string; phone: string; months: number; amount: number }>({
+  const [payForm, setPayForm] = useState<{
+    tenantName: string;
+    phone: string;
+    months: number;
+    amount: number;
+  }>({
     tenantName: "",
     phone: "",
     months: 1,
@@ -108,7 +151,10 @@ export default function OwnerDashboard() {
   const handleRecordPayment = () => {
     if (!openPayFor) return;
     if (!payForm.tenantName || !payForm.phone || payForm.amount <= 0) {
-      toast({ title: "Missing details", description: "Fill all payment fields." });
+      toast({
+        title: "Missing details",
+        description: "Fill all payment fields.",
+      });
       return;
     }
     const payment: Payment = {
@@ -122,18 +168,22 @@ export default function OwnerDashboard() {
     };
     setPayments((prev) => [payment, ...prev]);
     setOpenPayFor(null);
-    toast({ title: "Payment recorded", description: `₹${payment.amount} received.` });
+    toast({
+      title: "Payment recorded",
+      description: `₹${payment.amount} received.`,
+    });
   };
 
-  const amenityOptions: { key: Listing["amenities"][number]; label: string }[] = [
-    { key: "wifi", label: "Wi‑Fi" },
-    { key: "meals", label: "Meals" },
-    { key: "laundry", label: "Laundry" },
-    { key: "parking", label: "Parking" },
-    { key: "ac", label: "AC" },
-    { key: "non-ac", label: "Non‑AC" },
-    { key: "attached-bath", label: "Attached Bath" },
-  ];
+  const amenityOptions: { key: Listing["amenities"][number]; label: string }[] =
+    [
+      { key: "wifi", label: "Wi‑Fi" },
+      { key: "meals", label: "Meals" },
+      { key: "laundry", label: "Laundry" },
+      { key: "parking", label: "Parking" },
+      { key: "ac", label: "AC" },
+      { key: "non-ac", label: "Non‑AC" },
+      { key: "attached-bath", label: "Attached Bath" },
+    ];
 
   return (
     <div className="container py-8">
@@ -141,32 +191,69 @@ export default function OwnerDashboard() {
         <h1 className="text-2xl font-bold">Owner Dashboard</h1>
         <Dialog open={openAdd} onOpenChange={setOpenAdd}>
           <DialogTrigger asChild>
-            <Button><Plus className="h-4 w-4 mr-2"/> Add Listing</Button>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" /> Add Listing
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editing ? "Edit Listing" : "New Listing"}</DialogTitle>
+              <DialogTitle>
+                {editing ? "Edit Listing" : "New Listing"}
+              </DialogTitle>
             </DialogHeader>
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label>Title</Label>
-                <Input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="e.g., Cozy PG near ISBT Dehradun"/>
+                <Input
+                  value={form.title}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, title: e.target.value }))
+                  }
+                  placeholder="e.g., Cozy PG near ISBT Dehradun"
+                />
               </div>
               <div className="grid gap-2">
                 <Label>Address</Label>
-                <Input value={form.address} onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))} placeholder="Street, landmark"/>
+                <Input
+                  value={form.address}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, address: e.target.value }))
+                  }
+                  placeholder="Street, landmark"
+                />
               </div>
               <div className="grid gap-2">
                 <Label>Locality</Label>
-                <Input value={form.locality} onChange={(e) => setForm((f) => ({ ...f, locality: e.target.value }))} placeholder="Dehradun, Rishikesh, Haridwar..."/>
+                <Input
+                  value={form.locality}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, locality: e.target.value }))
+                  }
+                  placeholder="Dehradun, Rishikesh, Haridwar..."
+                />
               </div>
               <div className="grid gap-2">
                 <Label>Rent (₹/month)</Label>
-                <Input type="number" value={form.rent} onChange={(e) => setForm((f) => ({ ...f, rent: Number(e.target.value || 0) }))}/>
+                <Input
+                  type="number"
+                  value={form.rent}
+                  onChange={(e) =>
+                    setForm((f) => ({
+                      ...f,
+                      rent: Number(e.target.value || 0),
+                    }))
+                  }
+                />
               </div>
               <div className="grid gap-2">
                 <Label>Contact</Label>
-                <Input value={form.contact} onChange={(e) => setForm((f) => ({ ...f, contact: e.target.value }))} placeholder="Phone or email"/>
+                <Input
+                  value={form.contact}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, contact: e.target.value }))
+                  }
+                  placeholder="Phone or email"
+                />
               </div>
               <div className="grid gap-2">
                 <Label>Amenities</Label>
@@ -182,7 +269,12 @@ export default function OwnerDashboard() {
                             : [...f.amenities, a.key],
                         }))
                       }
-                      className={"px-3 py-1 rounded-full text-xs border transition-colors " + (form.amenities.includes(a.key) ? "bg-primary text-primary-foreground" : "hover:bg-accent")}
+                      className={
+                        "px-3 py-1 rounded-full text-xs border transition-colors " +
+                        (form.amenities.includes(a.key)
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-accent")
+                      }
                     >
                       {a.label}
                     </button>
@@ -190,7 +282,15 @@ export default function OwnerDashboard() {
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => { setOpenAdd(false); setEditing(null); }}>Cancel</Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setOpenAdd(false);
+                    setEditing(null);
+                  }}
+                >
+                  Cancel
+                </Button>
                 <Button onClick={handleSave}>Save</Button>
               </div>
             </div>
@@ -205,7 +305,8 @@ export default function OwnerDashboard() {
               <CardTitle>No listings yet</CardTitle>
             </CardHeader>
             <CardContent className="text-muted-foreground">
-              Click "Add Listing" to create your first PG. You can track payments from here too.
+              Click "Add Listing" to create your first PG. You can track
+              payments from here too.
             </CardContent>
           </Card>
         ) : (
@@ -214,7 +315,10 @@ export default function OwnerDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>{l.title}</span>
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-primary"><IndianRupee className="h-4 w-4"/>{l.rent.toLocaleString()}</span>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                    <IndianRupee className="h-4 w-4" />
+                    {l.rent.toLocaleString()}
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -232,22 +336,51 @@ export default function OwnerDashboard() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {l.amenities.map((a) => (
-                    <span key={a} className="px-2 py-1 rounded-full bg-accent text-xs">{a}</span>
+                    <span
+                      key={a}
+                      className="px-2 py-1 rounded-full bg-accent text-xs"
+                    >
+                      {a}
+                    </span>
                   ))}
                 </div>
                 <div className="flex items-center justify-between pt-2">
                   <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <Receipt className="h-4 w-4"/> Collected: ₹{(totalsByListing[l.id] ?? 0).toLocaleString()}
+                    <Receipt className="h-4 w-4" /> Collected: ₹
+                    {(totalsByListing[l.id] ?? 0).toLocaleString()}
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => { setEditing(l); setForm({ title: l.title, address: l.address, locality: l.locality, rent: l.rent, contact: l.contact, amenities: l.amenities }); setOpenAdd(true); }}>
-                      <Edit3 className="h-4 w-4 mr-1"/> Edit
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setEditing(l);
+                        setForm({
+                          title: l.title,
+                          address: l.address,
+                          locality: l.locality,
+                          rent: l.rent,
+                          contact: l.contact,
+                          amenities: l.amenities,
+                        });
+                        setOpenAdd(true);
+                      }}
+                    >
+                      <Edit3 className="h-4 w-4 mr-1" /> Edit
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => startPay(l)}>
-                      <IndianRupee className="h-4 w-4 mr-1"/> Record Payment
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => startPay(l)}
+                    >
+                      <IndianRupee className="h-4 w-4 mr-1" /> Record Payment
                     </Button>
-                    <Button variant="destructive" size="sm" onClick={() => handleDelete(l.id)}>
-                      <Trash2 className="h-4 w-4 mr-1"/> Delete
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(l.id)}
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" /> Delete
                     </Button>
                   </div>
                 </div>
@@ -264,7 +397,9 @@ export default function OwnerDashboard() {
           </CardHeader>
           <CardContent>
             {payments.length === 0 ? (
-              <div className="text-sm text-muted-foreground">No payments recorded yet.</div>
+              <div className="text-sm text-muted-foreground">
+                No payments recorded yet.
+              </div>
             ) : (
               <Table>
                 <TableHeader>
@@ -280,10 +415,16 @@ export default function OwnerDashboard() {
                     const listing = listings.find((l) => l.id === p.listingId);
                     return (
                       <TableRow key={p.id}>
-                        <TableCell>{new Date(p.date).toLocaleString()}</TableCell>
+                        <TableCell>
+                          {new Date(p.date).toLocaleString()}
+                        </TableCell>
                         <TableCell>{p.tenantName}</TableCell>
-                        <TableCell>{listing ? listing.title : "Deleted listing"}</TableCell>
-                        <TableCell className="text-right">₹{p.amount.toLocaleString()}</TableCell>
+                        <TableCell>
+                          {listing ? listing.title : "Deleted listing"}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          ₹{p.amount.toLocaleString()}
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -294,7 +435,10 @@ export default function OwnerDashboard() {
         </Card>
       </div>
 
-      <Dialog open={!!openPayFor} onOpenChange={(o) => !o && setOpenPayFor(null)}>
+      <Dialog
+        open={!!openPayFor}
+        onOpenChange={(o) => !o && setOpenPayFor(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Record Payment</DialogTitle>
@@ -302,25 +446,59 @@ export default function OwnerDashboard() {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label>Tenant name</Label>
-              <Input value={payForm.tenantName} onChange={(e) => setPayForm((f) => ({ ...f, tenantName: e.target.value }))} />
+              <Input
+                value={payForm.tenantName}
+                onChange={(e) =>
+                  setPayForm((f) => ({ ...f, tenantName: e.target.value }))
+                }
+              />
             </div>
             <div className="grid gap-2">
               <Label>Phone</Label>
-              <Input value={payForm.phone} onChange={(e) => setPayForm((f) => ({ ...f, phone: e.target.value }))} />
+              <Input
+                value={payForm.phone}
+                onChange={(e) =>
+                  setPayForm((f) => ({ ...f, phone: e.target.value }))
+                }
+              />
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label>Months</Label>
-                <Input type="number" min={1} value={payForm.months} onChange={(e) => setPayForm((f) => ({ ...f, months: Number(e.target.value || 1) }))} />
+                <Input
+                  type="number"
+                  min={1}
+                  value={payForm.months}
+                  onChange={(e) =>
+                    setPayForm((f) => ({
+                      ...f,
+                      months: Number(e.target.value || 1),
+                    }))
+                  }
+                />
               </div>
               <div className="grid gap-2">
                 <Label>Amount (₹)</Label>
-                <Input type="number" min={0} value={payForm.amount} onChange={(e) => setPayForm((f) => ({ ...f, amount: Number(e.target.value || 0) }))} />
+                <Input
+                  type="number"
+                  min={0}
+                  value={payForm.amount}
+                  onChange={(e) =>
+                    setPayForm((f) => ({
+                      ...f,
+                      amount: Number(e.target.value || 0),
+                    }))
+                  }
+                />
               </div>
             </div>
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setOpenPayFor(null)}>Cancel</Button>
-              <Button onClick={handleRecordPayment}><IndianRupee className="h-4 w-4 mr-2"/> Save</Button>
+              <Button variant="outline" onClick={() => setOpenPayFor(null)}>
+                Cancel
+              </Button>
+              <Button onClick={handleRecordPayment}>
+                <IndianRupee className="h-4 w-4 mr-2" /> Save
+              </Button>
             </div>
           </div>
         </DialogContent>
