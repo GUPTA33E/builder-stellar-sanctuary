@@ -44,6 +44,8 @@ function useLocalStorageState<T>(key: string, initial: T) {
   return [state, setState] as const;
 }
 
+const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+
 export default function OwnerDashboard() {
   const [listings, setListings] = useLocalStorageState<Listing[]>(LOCAL_STORAGE_KEYS.LISTINGS, []);
   const [payments, setPayments] = useLocalStorageState<Payment[]>(LOCAL_STORAGE_KEYS.PAYMENTS, []);
@@ -78,7 +80,7 @@ export default function OwnerDashboard() {
       setListings((prev) => prev.map((l) => (l.id === editing.id ? { ...editing, ...form } : l)));
       setEditing(null);
     } else {
-      const id = crypto.randomUUID();
+      const id = uid();
       setListings((prev) => [...prev, { id, ...form }]);
     }
     setForm({ title: "", address: "", locality: "", rent: 5000, contact: "", amenities: [] });
@@ -110,7 +112,7 @@ export default function OwnerDashboard() {
       return;
     }
     const payment: Payment = {
-      id: crypto.randomUUID(),
+      id: uid(),
       listingId: openPayFor,
       tenantName: payForm.tenantName,
       phone: payForm.phone,
