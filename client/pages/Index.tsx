@@ -198,9 +198,12 @@ export default function Index() {
               </Select>
               <div className="px-2">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                  <Filter className="h-3.5 w-3.5"/> Price range: ₹{price[0]} - ₹{price[1]}
+                  <Filter className="h-3.5 w-3.5"/> Price range
                 </div>
-                <Slider value={price} onValueChange={(v: number[]) => setPrice([v[0], v[1]] as [number, number])} min={0} max={20000} step={500} />
+                <div className="grid grid-cols-2 gap-2">
+                  <Input type="number" min={0} step={500} value={price[0]} onChange={(e) => setPrice([Number(e.target.value || 0), price[1]])} placeholder="Min ₹" />
+                  <Input type="number" min={0} step={500} value={price[1]} onChange={(e) => setPrice([price[0], Number(e.target.value || 0)])} placeholder="Max ₹" />
+                </div>
               </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
